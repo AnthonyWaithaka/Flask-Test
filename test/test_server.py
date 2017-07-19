@@ -3,7 +3,7 @@
 import unittest
 
 from app.server import bluServer
-from app.server import bluClient
+from app.client import bluClient
 from app.bucketlist import bluBucketList
 
 class ServerTestCase(unittest.TestCase):
@@ -34,7 +34,7 @@ class ServerTestCase(unittest.TestCase):
     def test_create_client_username_repetition(self):
         new_client = self.bServer.createClient('something2@yes.com', 'thisone', 'aaa1115', True)
         new_client2 = self.bServer.createClient('something2@no.com', 'thatone', 'aaa1116', True)
-        self.assertNotEqual(new_client2, 4, "Client Username already in use")
+        self.assertNotEqual(new_client2, 5, "Client Username already in use")
 
     def test_client_is_valid_object(self):
         new_client = self.bServer.createClient('something3@yes.com', 'theseguys', 'aaa1117', True)
@@ -48,7 +48,7 @@ class ServerTestCase(unittest.TestCase):
 
     def test_client_delete_id_not_exist(self):
         new_client = self.bServer.createClient('something6@yes.com', 'guy2', 'aaa1121', True)
-        self.assertNotEqual(self.bServer.deleteClient(new_client), 2, "Invalid Client Object")
+        self.assertNotEqual(self.bServer.deleteClient(new_client), 2, "Remnant Data")
     
     def test_client_delete_id_still_exist(self):
         new_client = self.bServer.createClient('something7@yes.com', 'guy3', 'aaa1122', True)
@@ -56,7 +56,9 @@ class ServerTestCase(unittest.TestCase):
     
     def test_client_view_fail(self):
         new_client = self.bServer.createClient('something8@yes.com', 'guy4', 'aaa1123', True)
-        self.assertIsInstance(self.bServer.viewClient('guy4'), bluBucketList, "View Failed")
+        new_client.createBList("guy4's list", 2012, "December", "I have a good feeling about this", True)
+        guy4_lists = self.bServer.viewClient('guy4')
+        self.assertIsInstance(guy4_lists[0], bluBucketList, "View Failed")
 
     def test_client_view_id_not_exist(self):
         new_client = self.bServer.createClient('something9@yes.com', 'guy5', 'aaa1124', True)
