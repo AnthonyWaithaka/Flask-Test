@@ -15,10 +15,15 @@ class ServerTestCase(unittest.TestCase):
         new_list2 = self.bClient.createBList('List_02', 2018, "January", "I feel like a million bucks", True)
         self.assertNotEqual(new_list2, False, "Name already used")
     
-    def test_view_bucket_list_returns_list_of_objects(self):
+    def test_view_bucket_list_one_object(self):
         self.bClient.createBList('Awesome Adventure', 2030, "January", "It will be most excellent", False)
-        theguy_lists = self.bClient.viewList()
-        self.assertIsInstance(theguy_lists[0], bluBucketList, "View Failed")
+        AA_list = self.bClient.viewList('Awesome Adventure')
+        self.assertIsInstance(AA_list, bluBucketList, "View Failed")
+
+    def test_view_bucket_list_fail(self):
+        self.bClient.createBList('Awesome Adventure 2', 2030, "January", "It will be most excellent", False)
+        AA_list = self.bClient.viewList('Awesome Adventure 2')
+        self.assertNotEqual(AA_list, None, "View Failed")    
 
     def test_bucket_list_delete_fail(self):
         new_list = self.bClient.createBList('List_03', 2017, "August", "This is the big one", True)

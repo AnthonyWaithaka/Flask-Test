@@ -71,3 +71,8 @@ class ServerTestCase(unittest.TestCase):
     def test_client_search_id_not_exist(self):
         new_client = self.bServer.createClient('something11@yes.com', 'guy7', 'aaa1126', True)
         self.assertNotEqual(self.bServer.searchClient('something11@yes.com'), False, "Username does not exist")
+
+    def test_client_view_bList_not_exist(self):
+        new_client = self.bServer.createClient('something12@yes.com', 'guy8', 'aaa1127', True)
+        new_list = new_client.createBList('List_01', 2018, "January", "I feel like a million bucks", True)
+        self.assertNotEqual(self.bServer.viewbList('List_01','guy8'), None, "Bucket list does not exist")

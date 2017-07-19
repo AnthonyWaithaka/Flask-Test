@@ -19,7 +19,7 @@ class bluServer(object):
         global client_email_counter
         match = re.match('^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$', userEmail)
 
-        if match == None:
+        if match == None and match.isalpha():
             return False
         else:
             return userEmail
@@ -36,7 +36,7 @@ class bluServer(object):
     
     def checkPasswordRepeat(self, userPassword):
         global client_password_list
-
+        
         checker = False
         for i in client_password_list:
             if i == userPassword:
@@ -118,7 +118,7 @@ class bluServer(object):
                 del client_list[key]
                 for j in client_id_list:
                     if j == key:
-                        return 3
+                        return 2
                 for k in client_email_list:
                     if k == holder[0]:
                         return 3
@@ -146,8 +146,16 @@ class bluServer(object):
         for i in client_id_list:
             if username == i:
                 holder = client_access_list[username]
-                return holder.viewList()
+                return list(holder.bL_list.values())
         return 1
+
+    def viewbList(self, listname, username):
+        holder = client_access_list[username]
+        if holder.viewList(listname) != None:
+            return holder.viewList(listname)
+        return None
+
+
     def searchClient(self, useremail):
         for i in client_id_list:
             holder = client_list[i]
