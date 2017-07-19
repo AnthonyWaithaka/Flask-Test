@@ -100,16 +100,41 @@ class bluServer(object):
         #check if respective client_id exists as a key in client_access_list
         #if so, 
         # find userEmail and userPassword from client_list
-        # delete userName, userEmail and userPassword from client_id_list client_email_list and client_password_list
-        # delete key-pair for client_access_list and client_list
+        # delete userName, userEmail and userPassword from client_id_list, client_email_list and client_password_list
+        # delete key-pairs for client_access_list and client_list
         #Tests: 
         # 1. object of type bluClient not passed as argument
         # 2. respective client_id does not exist in client_access_list
         # 3. client_id and object pair still exist in client_access_list or client_list
         # 4. client_id
-        pass
+        
+        for key,obj in client_access_list.items():
+            if obj == bluclient: #bluclient is object
+                holder = client_list[key] #holder is (email,pwd)
+                client_id_list.remove(key)
+                client_email_list.remove(holder[0])
+                client_password_list.remove(holder[1])
+                del client_access_list[key]
+                del client_list[key]
+                for j in client_id_list:
+                    if j == key:
+                        return 3
+                for k in client_email_list:
+                    if k == holder[0]:
+                        return 3
+                for l in client_password_list:
+                    if l == holder[1]:
+                        return 3
+                for m in list(client_access_list.values()):
+                    if m == key:
+                        return 3
+                for n in list(client_list.keys()):
+                    if n == key:
+                        return 3
+                return True
+            return 2
 
-    def viewClient(self, bluclient):
+    def viewClient(self, username):
         #check if bluclient exists as a key in client_access_list
         #if so, 
         # return bluClient's bucketlist object
@@ -118,12 +143,14 @@ class bluServer(object):
         # 2. client_id does not exist
         # 3. client_id does not exist in client_access_list
         # 4. function does not return bluBucketList object
-        pass
-    
-    def searchClient(self, userName):
-        #check if userName exists in client_id_list
-        #if so, return userName
-        #Tests:
-        # 1. userName does not exist in client_id_list
-        # 2. does not return userName
-        pass
+        for i in client_id_list:
+            if username == i:
+                holder = client_access_list[username]
+                return holder.viewList()
+        return 1
+    def searchClient(self, useremail):
+        for i in client_id_list:
+            holder = client_list[i]
+            if holder[0] == useremail:
+                return i
+        return False
