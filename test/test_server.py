@@ -1,5 +1,7 @@
 # test_server.py
-
+"""
+unittest file for server module
+"""
 import unittest
 
 from app.server import bluServer

@@ -96,18 +96,7 @@ class bluServer(object):
         #return the new client object
         return newClient
 
-    def deleteClient(self, bluclient):
-        #check if respective client_id exists as a key in client_access_list
-        #if so, 
-        # find userEmail and userPassword from client_list
-        # delete userName, userEmail and userPassword from client_id_list, client_email_list and client_password_list
-        # delete key-pairs for client_access_list and client_list
-        #Tests: 
-        # 1. object of type bluClient not passed as argument
-        # 2. respective client_id does not exist in client_access_list
-        # 3. client_id and object pair still exist in client_access_list or client_list
-        # 4. client_id
-        
+    def deleteClient(self, bluclient):        
         for key,obj in client_access_list.items():
             if obj == bluclient: #bluclient is object
                 holder = client_list[key] #holder is (email,pwd)
@@ -135,14 +124,6 @@ class bluServer(object):
             return 2
 
     def viewClient(self, username):
-        #check if bluclient exists as a key in client_access_list
-        #if so, 
-        # return bluClient's bucketlist object
-        #Tests:
-        # 1. object of type bluClient not passed as argument
-        # 2. client_id does not exist
-        # 3. client_id does not exist in client_access_list
-        # 4. function does not return bluBucketList object
         for i in client_id_list:
             if username == i:
                 holder = client_access_list[username]
@@ -154,7 +135,6 @@ class bluServer(object):
         if holder.viewList(listname) != None:
             return holder.viewList(listname)
         return None
-
 
     def searchClient(self, useremail):
         for i in client_id_list:
