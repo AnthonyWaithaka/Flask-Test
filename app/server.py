@@ -44,16 +44,19 @@ class bluServer(object):
             if i == userPassword:
                 checker = True
                 return checker
+        return checker
 
     def createClient(self, userEmail, userPassword, terms_and_conditions):
         global client_list
         global client_email_counter
         global client_email_list
+        global client_password_counter
+        global client_password_list
 
         if terms_and_conditions is False:
             return 1
         
-        new_user_email = self.getEmail(userEmail)
+        new_user_email = self.validateEmail(userEmail)
         
         if new_user_email is False:
             return 2
@@ -61,19 +64,20 @@ class bluServer(object):
         if self.checkEmailRepeat(new_user_email) is True:
             return 3
 
-        elif self.checkPasswordRepeat(userPassword) is True:
+        if self.checkPasswordRepeat(userPassword) is True:
             return 4
-        
-        else:
-            client_email_counter += 1
-            client_email_list.insert((client_email_counter-1), userEmail)
+
+        client_email_counter += 1
+        client_email_list.insert((client_email_counter-1), userEmail)
+        client_password_counter += 1
+        client_password_list.insert((client_password_counter-1), userPassword)
         
         #use client_email_counter as client_id
         #a getEmail call must always be followed by a createClient call if return is not False
         client_id_list.append(client_email_counter)
 
         #add to client_list dictionary with {client_id:(client_email, pwd)}
-        client_list[client_id_list[client_email_counter-1]] = (client_email_list[client_email_counter-1], userPassword)
+        client_list[client_id_list[client_email_counter-1]] = (client_email_list[client_email_counter-1], client_password_list[client_password_counter-1])
 
         #create a client object initialized with client_id, email_address and pwd
         newClient = bluClient(client_id_list[client_email_counter-1], userEmail, userPassword)
