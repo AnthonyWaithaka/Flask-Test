@@ -3,6 +3,7 @@
 import unittest
 
 from app.server import bluServer
+from app.server import bluClient
 
 
 class ServerTestCase(unittest.TestCase):
@@ -27,5 +28,10 @@ class ServerTestCase(unittest.TestCase):
 
     def test_create_client_password_repetition(self):
         new_client = self.bServer.createClient('something@yes.com', 'aaa1122', True)
-        new_client2 = self.bServer.createClient('something@yes.com', 'aaa1122', True)
+        new_client2 = self.bServer.createClient('something1@yes.com', 'aaa1123', True)
         self.assertNotEqual(new_client2, 4, "Client Password already in use")
+
+    def test_client_is_valid_object(self):
+        new_client = self.bServer.createClient('something@yes.com', 'aaa1122', True)
+        new_client2 = self.bServer.createClient('something1@yes.com', 'aaa1123', True)
+        self.assertIsInstance(new_client2, bluClient, "Invalid Client Object")
